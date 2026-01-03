@@ -5,12 +5,19 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 🔧 Mobile-safe viewport setup */
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 /* Page background */
 body {
-  min-height: 100vh;
-  background: url("bgimage.jpg");
+  min-height: 100svh; /* ✅ FIX for mobile viewport issue */
+  background-image: url("bgimage.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,11 +134,12 @@ body {
   background: #fa0404;
 }
 
-/* ✅ Completed todo */
+/* Completed todo */
 .completed {
   background: #8df5a0;
   opacity: 0.8;
 }
+
 .completed .todo-text {
   color: rgb(5, 1, 1);
   font-weight: 700;
@@ -139,13 +147,8 @@ body {
   text-decoration-color: white;
   text-decoration-thickness: 1px;
 }
-/*.message {
-  text-align: center;
-  margin-bottom: 15px;
-  color: #00ff88;
-  font-weight: bold;
-  font-size: 16px;
-}*/
+
+/* Alert overlay */
 .alert-overlay {
   position: fixed;
   top: 0;
@@ -159,6 +162,7 @@ body {
   z-index: 1000;
 }
 
+/* Alert box */
 .alert-box {
   background: #1e013d;
   color: #ffffff;
@@ -171,4 +175,25 @@ body {
 .alert-box h2 {
   margin-bottom: 10px;
   color: #00ff88;
+}
+
+/* 📱 Mobile responsiveness */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
+  .container {
+    width: 92%;
+    padding: 20px;
+  }
+
+  .input-box {
+    flex-direction: column;
+  }
+
+  .input-box button {
+    width: 100%;
+  }
 }
