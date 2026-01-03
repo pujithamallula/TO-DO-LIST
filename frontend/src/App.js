@@ -4,6 +4,18 @@ import "./App.css";
 // ✅ LIVE BACKEND URL
 const API_BASE = "https://todo-backend-4x28.onrender.com";
 
+// ✅ Generate / get unique userId (per browser)
+const getUserId = () => {
+  let id = localStorage.getItem("userId");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("userId", id);
+  }
+  return id;
+};
+
+const USER_ID = getUserId();
+
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
@@ -12,22 +24,25 @@ function App() {
   const [showAlert, setShowAlert] = useState(false);
   const timerRef = useRef(null);
 
-  // Fetch todos
+  // ✅ Fetch todos (USER-SPECIFIC)
   useEffect(() => {
-    fetch(`${API_BASE}/todos`)
+    fetch(`${API_BASE}/todos/${USER_ID}`)
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch((err) => console.error("Error fetching todos:", err));
   }, []);
 
-  // Add todo
+  // ✅ Add todo (SEND userId)
   const addTodo = async () => {
     if (!task.trim()) return;
 
     const res = await fetch(`${API_BASE}/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: task }),
+      body: JSON.stringify({
+        text: task,
+        userId: USER_ID,
+      }),
     });
 
     const newTodo = await res.json();
