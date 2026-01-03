@@ -1,26 +1,30 @@
 import { useEffect, useState, useRef } from "react";
 import "./App.css";
 
+// ✅ LIVE BACKEND URL
+const API_BASE = "https://todo-backend-4x28.onrender.com";
+
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
 
-  // ✅ Alert message state
+  // Alert message state
   const [showAlert, setShowAlert] = useState(false);
   const timerRef = useRef(null);
 
   // Fetch todos
   useEffect(() => {
-    fetch("http://localhost:5000/todos")
+    fetch(`${API_BASE}/todos`)
       .then((res) => res.json())
-      .then((data) => setTodos(data));
+      .then((data) => setTodos(data))
+      .catch((err) => console.error("Error fetching todos:", err));
   }, []);
 
   // Add todo
   const addTodo = async () => {
     if (!task.trim()) return;
 
-    const res = await fetch("http://localhost:5000/todos", {
+    const res = await fetch(`${API_BASE}/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: task }),
@@ -33,7 +37,7 @@ function App() {
 
   // Delete todo
   const deleteTodo = async (id) => {
-    await fetch(`http://localhost:5000/todos/${id}`, {
+    await fetch(`${API_BASE}/todos/${id}`, {
       method: "DELETE",
     });
 
@@ -42,7 +46,7 @@ function App() {
 
   // Mark todo as done + show alert
   const markDone = async (id) => {
-    const res = await fetch(`http://localhost:5000/todos/${id}`, {
+    const res = await fetch(`${API_BASE}/todos/${id}`, {
       method: "PUT",
     });
 
@@ -54,15 +58,15 @@ function App() {
       )
     );
 
-    // ✅ Show alert
+    // Show alert
     setShowAlert(true);
 
-    // Clear previous timer if exists
+    // Clear previous timer
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
 
-    // Hide alert after 20 seconds
+    // Hide alert after 5 seconds
     timerRef.current = setTimeout(() => {
       setShowAlert(false);
     }, 5000);
@@ -72,12 +76,12 @@ function App() {
     <div className="container">
       <h1>My To-Do List</h1>
 
-      {/* ✅ Center alert popup */}
+      {/* Alert popup */}
       {showAlert && (
         <div className="alert-overlay">
           <div className="alert-box">
-            <h2>🎉 Great job! </h2>
-            <p>Task completed.Keep up the good work!</p>
+            <h2>🎉 Great job!</h2>
+            <p>Task completed. Keep up the good work!</p>
           </div>
         </div>
       )}
