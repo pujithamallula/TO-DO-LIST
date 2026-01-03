@@ -5,7 +5,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* 🔧 Mobile-safe viewport setup */
+/* Mobile-safe viewport */
 html, body {
   width: 100%;
   height: 100%;
@@ -13,19 +13,20 @@ html, body {
 
 /* Page background */
 body {
-  min-height: 100svh; /* ✅ FIX for mobile viewport issue */
+  min-height: 100svh; /* ✅ perfect for mobile + desktop */
   background-image: url("bgimage.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* ✅ KEEP CENTER */
 }
 
 /* Main card */
 .container {
   width: 420px;
+  max-width: 92%;
   background: #1e013d;
   padding: 25px;
   border-radius: 12px;
@@ -141,20 +142,16 @@ body {
 }
 
 .completed .todo-text {
-  color: rgb(5, 1, 1);
+  color: #050101;
   font-weight: 700;
   text-decoration: line-through;
   text-decoration-color: white;
-  text-decoration-thickness: 1px;
 }
 
 /* Alert overlay */
 .alert-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -177,13 +174,8 @@ body {
   color: #00ff88;
 }
 
-/* 📱 Mobile responsiveness */
+/* Mobile tweaks (NO TOP ALIGNMENT) */
 @media (max-width: 768px) {
-  body {
-    align-items: flex-start;
-    padding: 20px 0;
-  }
-
   .container {
     width: 92%;
     padding: 20px;
